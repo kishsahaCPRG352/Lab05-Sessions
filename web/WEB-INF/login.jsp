@@ -9,17 +9,20 @@
     <body>
         <h1>Login</h1>
         
-        <form method="get" action="login">
+        <form method="post" action="login">
             
             <div> 
                 <label> Username: </label>
-                <input type="text" name="username" value="">
+                <input type="text" name="username" value="${username}">
             </div>
             
             <div> 
                 <label> Password: </label>
-                <input type="text" name="password" value="">
+                <input type="password" name="password" value="${password}">
             </div>
+            
+            <input type="submit" value="Log in">
         </form>
+            <div>${message}</div>
     </body>
 </html>

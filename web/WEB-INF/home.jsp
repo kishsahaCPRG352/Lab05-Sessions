@@ -8,6 +8,14 @@
         <title>Home Page</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>Home Page</h1>
+        
+        <div>
+            <h2>Hello ${username}</h2>
+        </div>
+        
+        <div>
+            <a href="login?logout">Log out</a>
+        </div>
     </body>
 </html>
