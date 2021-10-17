@@ -13,6 +13,7 @@ import services.*;
 
 
 public class LoginServlet extends HttpServlet {
+    
 
 
     @Override
@@ -20,14 +21,19 @@ public class LoginServlet extends HttpServlet {
             throws ServletException, IOException {
             
         String logout = request.getParameter("logout");
-        
-        if ((logout == null) ) {
+        HttpSession session = request.getSession();
+        if ((logout != null) ) {
+            session.invalidate();
+            request.setAttribute("message", "You have successfully logged out.");
             getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
         return;
-        } else {
-            getServletContext().getRequestDispatcher("/WEB-INF/home.jsp").forward(request, response);
-        return;
         }
+        if((request.getSession().getAttribute("username") != null)) {
+            response.sendRedirect("home");
+            return;
+        }
+        getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+        return;
     }
 
 
@@ -49,8 +55,22 @@ public class LoginServlet extends HttpServlet {
             return;
             }
             else {
-                 User user = new User(username, password);
-                user.login(username, password);
+            AccountService user = new AccountService();    
+            
+                if ((user.login(username, password)) != null)
+                {
+                    HttpSession session = request.getSession();
+                    
+                    session.setAttribute("username", username);
+                    response.sendRedirect("home");
+                    return;
+                }
+                else 
+                {
+                  request.setAttribute("message", "Invalid login"); 
+                  getServletContext().getRequestDispatcher("/WEB-INF/login.jsp").forward(request, response);
+                  return;
+                }
             }
         
     }
